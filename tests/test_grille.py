@@ -10,5 +10,4 @@ class Test_grille(unittest.TestCase):
         assert 1 == 2
 
 if __name__ == '__main__':
-    import nose2
-    nose2.main()
+    unittest.main()

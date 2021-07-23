@@ -187,19 +187,19 @@ tab_numpy = np.array(tab)
 
 il est tout.à fait possible de partir d'une liste de nombre complexes (natifs et non pas de la classe NombreComplexe malheureusement 😕). 
 
-1. Redéfinir une fonction **nombre_complexe_numpy(n_x, n_y)** qui renvoie cette fois un nombre complex natif.
+1. Redéfinir une fonction **nombre_complexe_numpy(k, l, n_y, n_x)** qui renvoie cette fois un nombre complex natif.
 
-2. Redéfinir une fonction **grille_complexe_numpy(n_x, n_y)** qui crée une liste de liste pour la grille à partir de nombres complexes natifs et créer un équivalent en objet numpy à renvoyer.
+2. Redéfinir une fonction **grille_complexe_numpy(n_y, n_x)** qui crée une liste de liste pour la grille à partir de nombres complexes natifs et créer un équivalent en objet numpy à renvoyer.
 
 
 Considérons maintenant les opérations sur les tableaux, Pour ce faire, il faut comprendre que l'orsque l'on additionne, soustrait ou multiplie des tableaux entre eux, les opérations se font point par point (tous les éléments s'additionnent, se soustraient ou se multiplient) comme on a pu le voir pour la classe matrice en TD. (Plus de détails à voir sur https://numpy.org/doc/stable/user/quickstart.html).
 
-3. À partir de la fonction **grille_complexe_numpy(n_x, n_y)**, créer une grille complexe et construire un nouveau tableau numpy correspondant au module pour chaque élément du tableau (en faisant des opérations sur tableaux). Comparer avec le module de la partie précédente.
+3. À partir de la fonction **grille_complexe_numpy(n_y, n_x)**, créer une grille complexe et construire un nouveau tableau numpy correspondant au module pour chaque élément du tableau (en faisant des opérations sur tableaux). Comparer avec le module de la partie précédente.
 
 4. Afin de calculer l'image de Mandelbrot, on donne la fonction suivante:
 
 	```python
-	def image_mandelbrot_numpy_couleur(n_x, n_y, N):
+	def image_mandelbrot_numpy_couleur(n_y, n_x, N):
 	    """Crée une image de Mandelbrot couleur de taille définie par les entrées et
 	    paramétrée par un nombre d'itérations maximum. Version avec numpy.
 	
@@ -218,7 +218,7 @@ Considérons maintenant les opérations sur les tableaux, Pour ce faire, il faut
 	    array, de taille (n_y, n_x)
 	        la grille sous forme d'un array numpy.
 	    """
-	    c = grille_complexe_numpy(n_x, n_y)
+	    c = grille_complexe_numpy(n_y, n_x)
 	    z = np.zeros((n_y, n_x), dtype=complex)
 	    masque_non_divergent = np.full((n_y, n_x), True, dtype=bool)
 	    image = np.zeros((n_y, n_x))
@@ -233,4 +233,4 @@ Considérons maintenant les opérations sur les tableaux, Pour ce faire, il faut
 	    return image
 	```
 
-	Tester la fonction en l'ajoutant à votre code. Comaprer le résultat avec la fonction faite maison plus tôt et comparer également vitesse d'exécution. Que peut-on conclure ?
+	Tester la fonction en l'ajoutant à votre code. Comparer le résultat avec la fonction faite maison plus tôt et comparer également vitesse d'exécution. Que peut-on conclure ?

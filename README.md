@@ -65,7 +65,7 @@ Pour pouvoir afficher le résultat de la fractale, nous devons pouvoir représen
 <figcaption>Pavage du plan complexe</figcaption>
 </figure>
 
-Afin d'avoir une représentation arbitrairement fine, on choisit deux paramètres $n_{y}$ et $n_{x}$ qui permettent de donner le nombres de nombres réprésentés. Cette grille sera représentée par une lsite de liste (à la manière des matrices vues en TD).
+Afin d'avoir une représentation arbitrairement fine, on choisit deux paramètres $n_{y}$ et $n_{x}$ qui permettent de donner le nombres de nombres réprésentés. Cette grille sera représentée par une liste de liste (à la manière des matrices vues en TD).
 
 Étant donné une  grille de taille $n_{y}\times n_{x}$, et une résolution donnée par deux pas $pas_x$ et $pas_y$, un nombre complexe représenté par le pixel à la ligne $k$, et colonne $l$ est le suivant:
 $$
@@ -168,7 +168,7 @@ On va maintenant s'intéresser au problème principal à savoir trouver pour cha
 Il se trouve que python gère nativement les données complexe et il n'y a pas besoin de refaire une classe pour cela (à par pour des fins pédagogiques bien sur !). Pour instancier un nombre complexe, il suffit de d'écrire par exemple:
 
 ```python
-z = 5 + -3j
+z = 5 - 3j
 ```
 
 Les opérations usuelles (+, *, - et **) sont déjà implémentées. D'où l'utilité de faire une recherche dans la documentation pour savoir si ce que l'on cherche à faire n'existe pas déjà !
@@ -185,52 +185,54 @@ Dans un premier temps, il est possible de de créer un tableau de type **numpy**
 tab_numpy = np.array(tab)
 ```
 
-il est tout.à fait possible de partir d'une liste de nombre complexes (natifs et non pas de la classe NombreComplexe malheureusement 😕). 
+il est tout à fait possible de partir d'une liste de nombre complexes (natifs et non pas de la classe NombreComplexe malheureusement 😕, à moins de faire une fonction qui convertit la classe NombreComplexe en objet natif...). 
 
 1. Redéfinir une fonction **nombre_complexe_numpy(k, l, n_y, n_x)** qui renvoie cette fois un nombre complex natif.
 
 2. Redéfinir une fonction **grille_complexe_numpy(n_y, n_x)** qui crée une liste de liste pour la grille à partir de nombres complexes natifs et créer un équivalent en objet numpy à renvoyer.
 
 
-Considérons maintenant les opérations sur les tableaux, Pour ce faire, il faut comprendre que l'orsque l'on additionne, soustrait ou multiplie des tableaux entre eux, les opérations se font point par point (tous les éléments s'additionnent, se soustraient ou se multiplient) comme on a pu le voir pour la classe matrice en TD. (Plus de détails à voir sur https://numpy.org/doc/stable/user/quickstart.html).
+Considérons maintenant les opérations sur les tableaux, Pour ce faire, il faut comprendre que lorsque l'on additionne, soustrait ou multiplie des tableaux entre eux, les opérations se font point par point (tous les éléments s'additionnent, se soustraient ou se multiplient) comme on a pu le voir pour la classe matrice en TD. (Plus de détails à voir sur https://numpy.org/doc/stable/user/quickstart.html).
 
-3. À partir de la fonction **grille_complexe_numpy(n_y, n_x)**, créer une grille complexe et construire un nouveau tableau numpy correspondant au module pour chaque élément du tableau (en faisant des opérations sur tableaux). Comparer avec le module de la partie précédente.
+3. Essayer de faire des exemples de tableaux simples de taile artbitraire faites des opérations d'adition, soustration et multiplication. Observez le résultat.
 
-4. Afin de calculer l'image de Mandelbrot, on donne la fonction suivante:
+4. À partir de la fonction **grille_complexe_numpy(n_y, n_x)**, créer une grille complexe et construire un nouveau tableau numpy correspondant au module pour chaque élément du tableau (en faisant des opérations sur tableaux). Comparer avec le module de la partie précédente.
 
-	```python
-	def image_mandelbrot_numpy_couleur(n_y, n_x, N):
-	    """Crée une image de Mandelbrot couleur de taille définie par les entrées et
-	    paramétrée par un nombre d'itérations maximum. Version avec numpy.
-	
-	    Parameters
-	    ----------
-	    n_y : int
-	        nombre de points en ligne.
-	    n_x : int
-	        nombre de points en colonne.
-	    N : int
-	        le nombre d'itérations maximum à partir du quel on considère 
-	        que la suite converge.
-	
-	    Returns
-	    -------
-	    array, de taille (n_y, n_x)
-	        la grille sous forme d'un array numpy.
-	    """
-	    c = grille_complexe_numpy(n_y, n_x)
-	    z = np.zeros((n_y, n_x), dtype=complex)
-	    masque_non_divergent = np.full((n_y, n_x), True, dtype=bool)
-	    image = np.zeros((n_y, n_x))
-	    for n in trange(N):
-	        z[masque_non_divergent] = z[masque_non_divergent]**2 +\
-	                                  c[masque_non_divergent]
-	        masque_nouveau_divergent = np.logical_and(
-	            masque_non_divergent, np.abs(z) > 2
-	        )
-	        image[masque_nouveau_divergent] = n
-	        masque_non_divergent = (np.abs(z) <= 2)
-	    return image
-	```
+5. Afin de calculer l'image de Mandelbrot, on donne la fonction suivante:
 
-	Tester la fonction en l'ajoutant à votre code. Comparer le résultat avec la fonction faite maison plus tôt et comparer également vitesse d'exécution. Que peut-on conclure ?
+  ```python
+  def image_mandelbrot_numpy_couleur(n_y, n_x, N):
+      """Crée une image de Mandelbrot couleur de taille définie par les entrées et
+      paramétrée par un nombre d'itérations maximum. Version avec numpy.
+  
+      Parameters
+      ----------
+      n_y : int
+          nombre de points en ligne.
+      n_x : int
+          nombre de points en colonne.
+      N : int
+          le nombre d'itérations maximum à partir du quel on considère 
+          que la suite converge.
+  
+      Returns
+      -------
+      array, de taille (n_y, n_x)
+          la grille sous forme d'un array numpy.
+      """
+      c = grille_complexe_numpy(n_y, n_x)
+      z = np.zeros((n_y, n_x), dtype=complex)
+      masque_non_divergent = np.full((n_y, n_x), True, dtype=bool)
+      image = np.zeros((n_y, n_x))
+      for n in trange(N):
+          z[masque_non_divergent] = z[masque_non_divergent]**2 +\
+                                    c[masque_non_divergent]
+          masque_nouveau_divergent = np.logical_and(
+              masque_non_divergent, np.abs(z) > 2
+          )
+          image[masque_nouveau_divergent] = n
+          masque_non_divergent = (np.abs(z) <= 2)
+      return image
+  ```
+
+  Tester la fonction en l'ajoutant à votre code. Comparer le résultat avec la fonction faite maison plus tôt et comparer également vitesse d'exécution. Que peut-on conclure ?

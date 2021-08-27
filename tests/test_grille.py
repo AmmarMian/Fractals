@@ -1,4 +1,5 @@
 import sys
+sys.path.append('../src')
 sys.path.append('./src')
 from math import sqrt 
 from main import NombreComplexe, nombre_complexe, grille_complexe,\

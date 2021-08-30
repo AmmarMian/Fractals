@@ -1,4 +1,40 @@
-# Visulisation de fractales : Ensemble de Mandelbrot
+# TP1 - Visulisation de fractales : Ensemble de Mandelbrot
+
+## Consignes
+
+### Cadre
+
+Les Tps se font par binôme (ou un monôme en cas de nombre d'étudiants impairs) afin de palier au manque de machines en salle. Cela veut dire qu'il y aura seulement un rendu par groupe. 
+
+### Rendu
+
+Le rendu se compose des deux éléments suivants:
+
+* Le code complété à partir du répertoire initial qui accompagne ce sujet.
+* Un rapport écrit au format word ou pdf selon le modèle disponible dans le répertoire de travail. Ce rapport doit rendre compte du travail que vous avez effectué en présentant  pour chaque question demandé les problèmes à résoudre et la solution proposée avec une explication avec vos propres mots et enfin le résultat obtenu (par exemple un affichage du résultat obtenu sur plusieurs exemples dans le cas d'une fonction).
+
+Les deux éléments sont **essentiels**. En effet, avoir un code fonctionnel et répondant à l'ensemble des questions. ne suffit pas pour avoir une bonne évaluation. Le rapport permet de rendre compte que vous avez compris ce que vous faisiez. 
+
+> Le dépôt du rendu (code + rapport) se fait sur la plateforme **Github Classroom** dont le lien est disponible sur la page moodle du cours au niveau relatif au TP2. **De plus, il faut aussi déposer uniquement le rapport** sur la zone dépot du TP2 sur la page moodle.
+
+### Test unitaires
+
+Des tests unitaires sont présents dans le dossier **tests** afin de permettre une évaluation rapide de votre progression dans le TP et également de vous permettre de savoir si la solution que vous proposer répond bien à ce qui est demandé en termes de spécifications. Lorsque vous réaliser une fonction, méthode ou classe démandés par une question, il faut exécuter la série de tests unitaires (en éxécutant le fichier de tests) comme présenté dans le dernier TD sur les tests unitaires.
+
+> Dans le cadre du TP1, deux fichiers concentrent les tests :
+>
+> * **test_nombrecomplexe.py** qui concentre des tests sur une classe ***Image*** à réaliser.
+> * **test_reconnaissance.py** qui concentre des tests sur une fonction de reconnaissance de chiffres à écrire. 
+
+### Évaluation
+
+L'évaluation prend en compte d'une part le résultat des tests unitaires dans une moindre mesure mais surtout en grande partie la qualité des explications et du rapport. **Ce TP n'est pas noté** afin de vous permettre de vous familiariser avec l'approche par tests unitaires et également sur le procédure de rendu. **Il est toutefois nécéssaire de faire un rendu sans quoi votre note de TP sera pénalisée.** 
+
+### Délai
+
+Afin de vous laisser le temps de faire le rapport si besoin, la date limite du rendu est donnée au **soir du jour où le TP a été programmé (avant minuit)**.
+
+## I - Présentation du TP
 
 Le but de ce TP est de d'obtenir une visualisation de l'ensemble de Mandelbrot qui est une fractale bien connue:
 
@@ -9,9 +45,10 @@ Le but de ce TP est de d'obtenir une visualisation de l'ensemble de Mandelbrot q
 
 
 La fractale est définie comme l'ensemble des points $c$ du plan complexe pour lesquels la suite de nombres complexes définie par récurrence par :
-$$
+
+$
 \left \{\begin{array}{rcr} z_0 &=& 0 \\ z_{n+1} &=& z_n^2 + c \end{array}\right.
-$$
+$
 est bornée.
 
 Elle peut être tracée plus simplement à l'aide du résultat suivant:
@@ -21,7 +58,7 @@ Elle peut être tracée plus simplement à l'aide du résultat suivant:
 
 >  Il est nécéssaire de les tester manuellement à chaque fois les fonctions que vous implémentez en faisant des exemples dans le main du programme.
 
-### Préliminaires : les nombres complexes
+## II - Préliminaires : les nombres complexes
 
 Dans un premier temps, nous avons besoin d'avoir une représentation des nobmre complexes afin de pouvoir effectuer les calculs des itérations de la suite de Mandelbrot. Pour ce faire, nous allons définir une classe.
 
@@ -50,27 +87,30 @@ Dans un premier temps, nous avons besoin d'avoir une représentation des nobmre 
 
 5. Surcharger la méthode pertinente pour pouvoir utiliser le symbole ** afin de réaliser la puissance d'un nombre complexe.
 
-### Le plan complexe comme une image
+## III - Le plan complexe comme une image
 
 L'ensemble de Mandelbrot concerne essentiellemnt les éléments du plan complexe respectant les conditions suivantes:
-$$
+
+$
 \left \{\begin{array}{l} \mathrm{Re}(z) \in [-2, 1] \\ \mathrm{Im}(z)\in [-1,1]\end{array}\right. .
-$$
+$
 
 
 Pour pouvoir afficher le résultat de la fractale, nous devons pouvoir représenter les nombres complexes de cet ensemble mais en discrétisant l'espace. Nous n'allons pas pouvoir en effet traiter tous les points (une infinité !) et on se propose de construire une grille de la manière suivante:
 
 <figure>
-<img src="./assets/pavage_complex.svg" style="float: center">
+<img src="./_static/pavage_complex.svg" style="float: center">
 <figcaption>Pavage du plan complexe</figcaption>
 </figure>
+
 
 Afin d'avoir une représentation arbitrairement fine, on choisit deux paramètres $n_{y}$ et $n_{x}$ qui permettent de donner le nombres de nombres réprésentés. Cette grille sera représentée par une liste de liste (à la manière des matrices vues en TD).
 
 Étant donné une  grille de taille $n_{y}\times n_{x}$, et une résolution donnée par deux pas $pas_x$ et $pas_y$, un nombre complexe représenté par le pixel à la ligne $k$, et colonne $l$ est le suivant:
-$$
+
+$
 c_{kl} = l\times pas_x + i(k\times pas_y) - z_d,
-$$
+$
 
 avec $z_d\in\mathbb{C}$, $(pas_x, pas_y)\in\mathbb{R}^2$ étant nombres bien choisis afin que $c_{00}= -2 +i$ et $c_{(n_{y}-1)(n_{x}-1)}=1-i$.
 
@@ -93,10 +133,9 @@ avec $z_d\in\mathbb{C}$, $(pas_x, pas_y)\in\mathbb{R}^2$ étant nombres bien cho
       return ...
   ```
 
+## IV - Visualisation à l'aide de la librairie matplotlib
 
-### Visualisation à l'aide de la librairie matplotlib
-
-Pour pouvoir visualiser la factrale, nous nous aidons de la librairie **matplotlib** qui permet de tracer facilement des courbes et graphiques et afficher des images. Pour ce faire il faut ajouter la ligne d'importation suivante au préambule du code:
+Pour pouvoir visualiser la fractale, nous nous aidons de la librairie **matplotlib** qui permet de tracer facilement des courbes et graphiques et afficher des images. Pour ce faire il faut ajouter la ligne d'importation suivante au préambule du code:
 
 ```python
 import matplotlib.pyplot as plt
@@ -115,7 +154,7 @@ import matplotlib.pyplot as plt
 	plt.show()
 	```
 
-### Algorithme de calcul de la fractale
+## V - Algorithme de calcul de la fractale
 
 On va maintenant s'intéresser au problème principal à savoir trouver pour chaque nombre complexe de la grille, trouver si la suite à l'équation (1) converge. Pour cela on va réaliser un algorithme itératif qui va calculer les termes de la suite jusqu'à ce que la valeur du module est supérieure à 2 (suite diverge) ou jusqu'à un certain nombre $N$ défini par l'utilisateur (suite ne diverge pas).
 
@@ -149,7 +188,7 @@ On va maintenant s'intéresser au problème principal à savoir trouver pour cha
 >
 > A titre d'exemple, on aura l'affichage suivant:
 >
-> ![tqdm](./assets/tqdm.png)
+> ![tqdm](./_static/tqdm.png)
 
 
 
@@ -163,7 +202,7 @@ On va maintenant s'intéresser au problème principal à savoir trouver pour cha
 
 	On pourra s'aider d'une fonction **nombre_iterations(c, N)** qui renvoie le nombre d'itérations effectuées la suite au point $c$.
 
-### Utilisation de librairies standard
+## VI - Utilisation de librairies standard
 
 Il se trouve que python gère nativement les données complexe et il n'y a pas besoin de refaire une classe pour cela (à par pour des fins pédagogiques bien sur !). Pour instancier un nombre complexe, il suffit de d'écrire par exemple:
 
@@ -185,7 +224,7 @@ Dans un premier temps, il est possible de de créer un tableau de type **numpy**
 tab_numpy = np.array(tab)
 ```
 
-il est tout à fait possible de partir d'une liste de nombre complexes (natifs et non pas de la classe NombreComplexe malheureusement 😕, à moins de faire une fonction qui convertit la classe NombreComplexe en objet natif...). 
+il est tout à fait possible de partir d'une liste de nombre complexes (natifs et non pas de la classe **NombreComplexe** malheureusement 😕, à moins de faire une fonction qui convertit la classe NombreComplexe en objet natif...). 
 
 1. Redéfinir une fonction **nombre_complexe_numpy(k, l, n_y, n_x)** qui renvoie cette fois un nombre complex natif.
 
